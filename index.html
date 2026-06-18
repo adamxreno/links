@@ -19,15 +19,21 @@
             background: #00c879;
         }
 
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
+        }
+
+        section {
+            opacity: 0;
+        }
+
+        section.visible {
+            animation: fadeIn 1.0s ease-out forwards;
         }
 
         @keyframes glow {
@@ -62,12 +68,40 @@
 
         .logo {
             font-family: 'Anton', sans-serif;
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 700;
             text-decoration: none;
             color: #000;
             letter-spacing: -0.5px;
             text-transform: uppercase;
+            display: inline-block;
+            position: relative;
+            height: 28px;
+            line-height: 28px;
+        }
+
+        .logo-full {
+            display: inline-block;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .logo-full.hidden {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .logo-short {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+
+        .logo-short.visible {
+            opacity: 1;
         }
 
         nav {
@@ -219,7 +253,7 @@
             background: #f0f0f0;
             border-radius: 20px;
             text-decoration: none;
-            color: #0a84ff;
+            color: #000;
             font-size: 14px;
             font-weight: 500;
             transition: all 0.3s ease;
@@ -229,7 +263,7 @@
         .link-badge:hover {
             background: #e8e8e8;
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(10, 132, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .contact {
@@ -306,6 +340,14 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
+        .substack-link img {
+            transition: filter 0.3s ease;
+        }
+
+        .substack-link:hover img {
+            filter: invert(1);
+        }
+
         footer {
             background: #f9f9f9;
             padding: 40px;
@@ -360,7 +402,10 @@
 <body>
     <header>
         <div class="header-container">
-            <a href="#" class="logo">Adam C. Moreno</a>
+            <a href="#" class="logo">
+                <span class="logo-full">Adam C. Moreno</span>
+                <span class="logo-short">ACM</span>
+            </a>
             <nav>
                 <a href="#about">About</a>
                 <a href="#content">Work</a>
@@ -368,6 +413,23 @@
             </nav>
         </div>
     </header>
+
+    <section class="about" id="about">
+        <h2>The future deserves better conversations.</h2>
+        <div class="about-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 40px;">
+            <div class="about-content">
+                <p>Through episodes, essays, interviews, and conversations, Adam C. Moreno explores the ideas, technologies, cultural shifts, and human stories shaping what comes next.</p>
+                <p>At a time when algorithms increasingly shape what we see, think, and believe, his work is dedicated to creating clarity, curiosity, and meaningful dialogue about the future.</p>
+                <p style="margin-top: 40px;">Because the future is not something that happens by accident.</p>
+                <p style="margin-top: 24px;">It is something we build.</p>
+                <p style="margin-top: 24px;">Together.</p>
+            </div>
+            <div>
+                <img src="https://i.imgur.com/Z9G9nD7.jpeg" alt="Adam C. Moreno" style="width: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 3/4; transition: all 0.4s ease; cursor: pointer; margin-bottom: 16px;" onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 15px 40px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                <p style="font-size: 16px; font-weight: 600; color: #1a1a1a; margin: 0; line-height: 1.6;">Founder of Public Good.<br>Host of The Adam C. Moreno Show.</p>
+            </div>
+        </div>
+    </section>
 
     <section class="hero">
         <h1>Adam C. Moreno</h1>
@@ -378,7 +440,7 @@
                 <div class="stat-label">YouTube Subscribers</div>
             </div>
             <div class="stat">
-                <div class="stat-number">80K+</div>
+                <div class="stat-number">81K+</div>
                 <div class="stat-label">TikTok Followers</div>
             </div>
             <div class="stat">
@@ -386,21 +448,9 @@
                 <div class="stat-label">Monthly Listeners</div>
             </div>
             <div class="stat">
-                <div class="stat-number">New Shows</div>
+                <div class="stat-number">New Episodes</div>
                 <div class="stat-label">Everyday</div>
             </div>
-        </div>
-    </section>
-
-    <section class="about" id="about">
-        <h2>Making the news make sense</h2>
-        <div class="about-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 40px;">
-            <div class="about-content">
-                <p>Adam C. Moreno is a dynamic creator, shower, and commentator navigating the intersection of news, culture, and politics. Passionate about breaking down complex current events and making them accessible to everyone.</p>
-                <p>Through his show, YouTube, TikTok, and Newsletter, Adam reaches hundreds of thousands of viewers and listeners daily. His energetic approach to news commentary has sparked conversations about the ideas and events that will shape our future.</p>
-                <p>From notable interviews and media appearances to building a thriving community of engaged listeners, Adam is redefining how people consume and discuss the news that shapes the future.</p>
-            </div>
-            <img src="https://i.imgur.com/Z9G9nD7.jpeg" alt="Adam C. Moreno" style="width: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 3/4; transition: all 0.4s ease; cursor: pointer;" onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 15px 40px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
         </div>
     </section>
 
@@ -437,9 +487,9 @@
         <a href="mailto:info@adamcmoreno.net" class="email-link">Send Email</a>
         <div class="social-icons">
             <a href="https://www.youtube.com/@adamcmoreno" class="social-icon-link" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="https://adamcmoreno.substack.com/" class="social-icon-link" target="_blank" title="Substack"><img src="https://i.imgur.com/rCKZUSu.png" alt="Substack" style="width: 24px; height: 24px;"></a>
-            <a href="https://x.com/adamcmoreno" class="social-icon-link" target="_blank" title="X"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.65l-5.207-6.802-5.997 6.802h-3.31l7.73-8.835L2.6 2.25h6.817l4.711 6.231 5.416-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
             <a href="https://www.instagram.com/adamcmoreno" class="social-icon-link" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://adamcmoreno.substack.com/" class="social-icon-link substack-link" target="_blank" title="Substack"><img src="https://i.imgur.com/rCKZUSu.png" alt="Substack" style="width: 24px; height: 24px;"></a>
+            <a href="https://x.com/adamcmoreno" class="social-icon-link" target="_blank" title="X"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.65l-5.207-6.802-5.997 6.802h-3.31l7.73-8.835L2.6 2.25h6.817l4.711 6.231 5.416-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
             <a href="https://www.tiktok.com/@adamcmoreno" class="social-icon-link" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
         </div>
     </section>
@@ -507,6 +557,39 @@
         } else {
             animateStats();
         }
+
+        // Logo animation on scroll
+        const logoFull = document.querySelector('.logo-full');
+        const logoShort = document.querySelector('.logo-short');
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                logoFull.classList.add('hidden');
+                logoShort.classList.add('visible');
+            } else {
+                logoFull.classList.remove('hidden');
+                logoShort.classList.remove('visible');
+            }
+        });
+
+        // Section fade-in on scroll
+        const sections = document.querySelectorAll('section');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
     </script>
 </body>
 </html>
