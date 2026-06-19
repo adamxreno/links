@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam C. Moreno - Links</title>
+    <link rel="icon" href="https://i.imgur.com/9g37qhF.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: #00c879;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.7;
+        }
+
+        header {
+            padding: 30px 0;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            background: #0a0a0a;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Anton', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            display: inline-block;
+            position: relative;
+            height: 28px;
+            line-height: 28px;
+        }
+
+        .logo-full {
+            display: inline-block;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .logo-full.hidden {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .logo-short {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+
+        .logo-short.visible {
+            opacity: 1;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #999;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #fff;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #fff;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        section {
+            opacity: 0;
+        }
+
+        section.visible {
+            animation: fadeIn 1.0s ease-out forwards;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-header {
+            margin-bottom: 16px;
+        }
+
+        .username {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .verified {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            margin-left: -6px;
+        }
+
+        .shorts-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .shorts-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            letter-spacing: -0.5px;
+        }
+
+        .shorts-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .shorts-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .shorts-carousel {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .short-item {
+            flex: 0 0 280px;
+            aspect-ratio: 9/16;
+            border-radius: 12px;
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            animation: fadeIn 1.0s ease-out forwards;
+            opacity: 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .short-item:nth-child(1) { animation-delay: 0.1s; }
+        .short-item:nth-child(2) { animation-delay: 0.2s; }
+        .short-item:nth-child(3) { animation-delay: 0.3s; }
+        .short-item:nth-child(4) { animation-delay: 0.4s; }
+        .short-item:nth-child(5) { animation-delay: 0.5s; }
+        .short-item:nth-child(6) { animation-delay: 0.6s; }
+
+        .short-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .short-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner-section {
+            width: 100%;
+            margin-top: 0;
+            padding: 0 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .banner-link {
+            display: inline-block;
+            max-width: 100%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 20px;
+            border-radius: 16px;
+        }
+
+        .banner-link img {
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            transition: transform 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .banner-link:hover img {
+            transform: scale(1.02);
+        }
+
+        .shorts-carousel-auto {
+            animation: none;
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: #aaa;
+            font-weight: 400;
+            margin-bottom: 48px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .social-icon-link {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #1a1a1a;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            font-size: 24px;
+        }
+
+        .social-icon-link:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.15) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .substack-icon {
+            filter: invert(1);
+            width: 24px;
+            height: 24px;
+        }
+
+        .social-icon-link:hover .substack-icon {
+            filter: none;
+        }
+
+        .links-grid {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-item {
+            padding: 16px 24px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+            text-decoration: none;
+            color: #1a1a1a;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            animation: fadeIn 1.0s ease-out forwards;
+            opacity: 0;
+        }
+
+        .link-item:nth-child(1) { animation-delay: 0.1s; }
+        .link-item:nth-child(2) { animation-delay: 0.2s; }
+        .link-item:nth-child(3) { animation-delay: 0.3s; }
+        .link-item:nth-child(4) { animation-delay: 0.4s; }
+        .link-item:nth-child(5) { animation-delay: 0.5s; }
+        .link-item:nth-child(6) { animation-delay: 0.6s; }
+
+
+        footer {
+            background: #0a0a0a;
+            padding: 40px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #222;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 60px 20px;
+            }
+
+            .username {
+                font-size: 24px;
+            }
+
+            .tagline {
+                font-size: 16px;
+            }
+
+            nav {
+                gap: 20px;
+                font-size: 13px;
+            }
+
+            .header-container {
+                padding: 0 20px;
+            }
+
+            .links-grid {
+                padding: 0 20px 60px;
+            }
+
+            .social-icons {
+                gap: 16px;
+            }
+
+            .social-icon-link {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="/" class="logo">
+                <span class="logo-full">Adam C. Moreno</span>
+                <span class="logo-short">ACM</span>
+            </a>
+            <nav>
+                <a href="/">Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="profile-container">
+        <img src="https://i.imgur.com/Z9G9nD7.jpeg" alt="Adam C. Moreno" class="profile-image">
+
+        <div class="profile-header">
+            <div class="username">
+                @AdamCMoreno
+                <img src="https://i.imgur.com/YsNQ1H5.png" alt="Verified" class="verified">
+            </div>
+            <p class="tagline">Talking about the news that shapes our future.</p>
+        </div>
+
+        <div class="social-icons">
+            <a href="https://www.youtube.com/@adamcmoreno" class="social-icon-link" target="_blank" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://adamcmoreno.substack.com/" class="social-icon-link" target="_blank" title="Substack">
+                <img src="https://i.imgur.com/rCKZUSu.png" alt="Substack" class="substack-icon">
+            </a>
+            <a href="https://www.instagram.com/adamcmoreno" class="social-icon-link" target="_blank" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://x.com/adamcmoreno" class="social-icon-link" target="_blank" title="X">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.65l-5.207-6.802-5.997 6.802h-3.31l7.73-8.835L2.6 2.25h6.817l4.711 6.231 5.416-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@adamcmoreno" class="social-icon-link" target="_blank" title="TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="mailto:info@adamcmoreno.net" class="social-icon-link" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <div style="margin: 40px auto; max-width: 500px;">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">the future is not something that happens by accident.<br><br>it is something we build.<br><br>together. <a href="https://t.co/8PqZJqLQGj">pic.twitter.com/8PqZJqLQGj</a></p>&mdash; Adam C. Moreno (@AdamCMoreno) <a href="https://twitter.com/AdamCMoreno/status/1652401905161883648?ref_src=twsrc%5Etfw">May 30, 2023</a></blockquote>
+        </div>
+    </section>
+
+    <section class="banner-section">
+        <a href="https://www.youtube.com/@AdamCMoreno" target="_blank" class="banner-link">
+            <img src="https://i.imgur.com/mxAxzN3.png" alt="The Adam C. Moreno Show">
+        </a>
+    </section>
+
+    <section class="shorts-section">
+        <div class="shorts-carousel shorts-carousel-auto">
+            <a href="https://www.youtube.com/shorts/ewwvCNg-0Yo" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/ewwvCNg-0Yo/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/gPSumgQWejQ" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/gPSumgQWejQ/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/_mMlwaPmgY8" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/_mMlwaPmgY8/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/lnQHVGM6U6k" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/lnQHVGM6U6k/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/7jIpzD4tK5M" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/7jIpzD4tK5M/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/iVVxFuKalJI" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/iVVxFuKalJI/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <!-- Duplicated for infinite effect -->
+            <a href="https://www.youtube.com/shorts/ewwvCNg-0Yo" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/ewwvCNg-0Yo/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/gPSumgQWejQ" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/gPSumgQWejQ/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/_mMlwaPmgY8" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/_mMlwaPmgY8/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/lnQHVGM6U6k" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/lnQHVGM6U6k/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/7jIpzD4tK5M" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/7jIpzD4tK5M/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+            <a href="https://www.youtube.com/shorts/iVVxFuKalJI" target="_blank" class="short-item">
+                <img src="https://img.youtube.com/vi/iVVxFuKalJI/maxresdefault.jpg" alt="YouTube Short">
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Adam C. Moreno. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Logo animation on scroll
+        const logoFull = document.querySelector('.logo-full');
+        const logoShort = document.querySelector('.logo-short');
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                logoFull.classList.add('hidden');
+                logoShort.classList.add('visible');
+            } else {
+                logoFull.classList.remove('hidden');
+                logoShort.classList.remove('visible');
+            }
+        });
+
+        // Section fade-in on scroll
+        const sections = document.querySelectorAll('section');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Infinite Shorts carousel scroll
+        const carousel = document.querySelector('.shorts-carousel-auto');
+        if (carousel) {
+            let isScrolling = false;
+            const scrollSpeed = 1;
+            const itemWidth = 280 + 20; // item width + gap
+            const totalItemsHalf = 6; // half the total items (original set)
+
+            function autoScroll() {
+                carousel.scrollLeft += scrollSpeed;
+
+                // When we've scrolled past the first set, reset to beginning
+                if (carousel.scrollLeft >= itemWidth * totalItemsHalf) {
+                    carousel.scrollLeft = 0;
+                }
+
+                requestAnimationFrame(autoScroll);
+            }
+
+            autoScroll();
+
+            // Pause on hover
+            carousel.addEventListener('mouseenter', () => {
+                isScrolling = false;
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                isScrolling = true;
+            });
+        }
+    </script>
+</body>
+</html>
