@@ -29,6 +29,81 @@
             }
         }
 
+        @keyframes envelopeShake {
+            0% {
+                transform: rotate(0deg) translateX(0);
+            }
+            25% {
+                transform: rotate(-1.5deg) translateX(-1px);
+            }
+            50% {
+                transform: rotate(0deg) translateX(0);
+            }
+            75% {
+                transform: rotate(1.5deg) translateX(1px);
+            }
+            100% {
+                transform: rotate(0deg) translateX(0);
+            }
+        }
+
+        @keyframes paperSlideOut {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-8px) scale(1.05);
+            }
+            100% {
+                transform: translateY(-12px) scale(1.08);
+            }
+        }
+
+        @keyframes envelopeBounce {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes envelopeSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes envelopeFloat {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes envelopePulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
             background: #0a0a0a;
@@ -320,6 +395,58 @@
             filter: none;
         }
 
+        .social-icon-link[title="Substack"]:hover {
+            background-color: #fe5900;
+        }
+
+        .social-icon-link[title="Substack"]:hover .substack-icon {
+            filter: invert(1);
+        }
+
+        .social-icon-link[title="YouTube"]:hover {
+            background-color: #ff0035;
+            color: #ffffff;
+        }
+
+        .social-icon-link[title="X"]:hover {
+            background-color: #01050b;
+            color: #ffffff;
+        }
+
+        .social-icon-link[title="Instagram"]:hover {
+            background-image: url('https://i.imgur.com/ZizV2nb.png');
+            background-size: cover;
+            background-position: center;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .social-icon-link[title="TikTok"]:hover {
+            background-image: url('https://i.imgur.com/KvrGorU.png');
+            background-size: cover;
+            background-position: center;
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .social-icon-link[title="TikTok"]:hover i.fab.fa-tiktok {
+            opacity: 0;
+        }
+
+        .social-icon-link[title="Email"]:hover {
+            background-color: #0A66C2;
+            color: #ffffff;
+        }
+
+        .social-icon-link[title="Email"] {
+            perspective: 1000px;
+        }
+
+        .social-icon-link[title="Email"]:hover i.fas.fa-envelope {
+            animation: envelopeShake 0.5s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
         .links-grid {
             max-width: 600px;
             margin: 0 auto;
@@ -428,11 +555,11 @@
             <a href="https://adamcmoreno.substack.com/" class="social-icon-link" target="_blank" title="Substack">
                 <img src="https://i.imgur.com/rCKZUSu.png" alt="Substack" class="substack-icon">
             </a>
-            <a href="https://www.instagram.com/adamcmoreno" class="social-icon-link" target="_blank" title="Instagram">
-                <i class="fab fa-instagram"></i>
-            </a>
             <a href="https://x.com/adamcmoreno" class="social-icon-link" target="_blank" title="X">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.65l-5.207-6.802-5.997 6.802h-3.31l7.73-8.835L2.6 2.25h6.817l4.711 6.231 5.416-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/adamcmoreno" class="social-icon-link" target="_blank" title="Instagram">
+                <i class="fab fa-instagram"></i>
             </a>
             <a href="https://www.tiktok.com/@adamcmoreno" class="social-icon-link" target="_blank" title="TikTok">
                 <i class="fab fa-tiktok"></i>
