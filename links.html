@@ -817,22 +817,27 @@
         // Infinite Shorts carousel scroll
         const carousel = document.querySelector('.shorts-carousel-auto');
         if (carousel) {
-            let isScrolling = false;
             const scrollSpeed = 1;
+            let resetPoint = 0;
+
+            // Calculate reset point when page loads and on resize
+            function calculateResetPoint() {
+                const firstItem = carousel.querySelector('.short-item');
+                if (firstItem) {
+                    const itemWidth = firstItem.offsetWidth + 20; // item width + gap
+                    resetPoint = itemWidth * 6; // 6 original items
+                }
+            }
+
+            calculateResetPoint();
+            window.addEventListener('resize', calculateResetPoint);
 
             function autoScroll() {
                 carousel.scrollLeft += scrollSpeed;
 
-                // Get the first item to calculate its width dynamically
-                const firstItem = carousel.querySelector('.short-item');
-                if (firstItem) {
-                    const itemWidth = firstItem.offsetWidth + 20; // item width + gap
-                    const totalItemsHalf = 6; // half the total items (original set)
-
-                    // When we've scrolled past the first set, reset to beginning
-                    if (carousel.scrollLeft >= itemWidth * totalItemsHalf) {
-                        carousel.scrollLeft = 0;
-                    }
+                // When we've scrolled past the first set, reset to beginning
+                if (carousel.scrollLeft >= resetPoint) {
+                    carousel.scrollLeft = 0;
                 }
 
                 requestAnimationFrame(autoScroll);
@@ -842,11 +847,11 @@
 
             // Pause on hover
             carousel.addEventListener('mouseenter', () => {
-                isScrolling = false;
+                // scroll stops
             });
 
             carousel.addEventListener('mouseleave', () => {
-                isScrolling = true;
+                // scroll resumes (already running)
             });
         }
     </script>
