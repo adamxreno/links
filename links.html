@@ -47,6 +47,125 @@
             }
         }
 
+        @keyframes staggerReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes staggerRevealYoutube {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+                background-color: #ff0035;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(0);
+                background-color: #ff0035;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                background-color: #1a1a1a;
+            }
+        }
+
+        @keyframes staggerRevealSubstack {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+                background-color: #fe5900;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(0);
+                background-color: #fe5900;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                background-color: #1a1a1a;
+            }
+        }
+
+        @keyframes staggerRevealX {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+                background-color: #01050b;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(0);
+                background-color: #01050b;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                background-color: #1a1a1a;
+            }
+        }
+
+        @keyframes staggerRevealInstagram {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+                background: url('https://i.imgur.com/ZizV2nb.png') center/cover;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(0);
+                background: url('https://i.imgur.com/ZizV2nb.png') center/cover;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                background: #1a1a1a;
+            }
+        }
+
+        @keyframes staggerRevealTiktok {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+                background: url('https://i.imgur.com/KvrGorU.png') center/cover;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(0);
+                background: url('https://i.imgur.com/KvrGorU.png') center/cover;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                background: #1a1a1a;
+            }
+        }
+
+        @keyframes staggerRevealEmail {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+                background-color: #0A66C2;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(0);
+                background-color: #0A66C2;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                background-color: #1a1a1a;
+            }
+        }
+
         @keyframes paperSlideOut {
             0% {
                 transform: translateY(0) scale(1);
@@ -103,6 +222,7 @@
                 transform: scale(1);
             }
         }
+
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
@@ -447,6 +567,31 @@
             transform-style: preserve-3d;
         }
 
+
+        .social-icon-link:nth-child(1) {
+            animation: staggerRevealX 0.8s ease-out 0s;
+        }
+
+        .social-icon-link:nth-child(2) {
+            animation: staggerRevealYoutube 0.8s ease-out 0.15s;
+        }
+
+        .social-icon-link:nth-child(3) {
+            animation: staggerRevealSubstack 0.8s ease-out 0.3s;
+        }
+
+        .social-icon-link:nth-child(4) {
+            animation: staggerRevealInstagram 0.8s ease-out 0.45s;
+        }
+
+        .social-icon-link:nth-child(5) {
+            animation: staggerRevealTiktok 0.8s ease-out 0.6s;
+        }
+
+        .social-icon-link:nth-child(6) {
+            animation: staggerRevealEmail 0.8s ease-out 0.75s;
+        }
+
         .links-grid {
             max-width: 600px;
             margin: 0 auto;
@@ -521,6 +666,15 @@
                 height: 48px;
                 font-size: 20px;
             }
+
+            .banner-section {
+                padding: 0 20px;
+            }
+
+            .banner-link {
+                max-width: 500px;
+                padding: 0;
+            }
         }
     </style>
 </head>
@@ -538,7 +692,7 @@
     </header>
 
     <section class="profile-container">
-        <img src="https://i.imgur.com/Z9G9nD7.jpeg" alt="Adam C. Moreno" class="profile-image">
+        <img src="https://i.imgur.com/dGOGkyE.jpeg" alt="Adam C. Moreno" class="profile-image">
 
         <div class="profile-header">
             <div class="username">
@@ -549,14 +703,14 @@
         </div>
 
         <div class="social-icons">
+            <a href="https://x.com/adamcmoreno" class="social-icon-link" target="_blank" title="X">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.65l-5.207-6.802-5.997 6.802h-3.31l7.73-8.835L2.6 2.25h6.817l4.711 6.231 5.416-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
             <a href="https://www.youtube.com/@adamcmoreno" class="social-icon-link" target="_blank" title="YouTube">
                 <i class="fab fa-youtube"></i>
             </a>
             <a href="https://adamcmoreno.substack.com/" class="social-icon-link" target="_blank" title="Substack">
                 <img src="https://i.imgur.com/rCKZUSu.png" alt="Substack" class="substack-icon">
-            </a>
-            <a href="https://x.com/adamcmoreno" class="social-icon-link" target="_blank" title="X">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.65l-5.207-6.802-5.997 6.802h-3.31l7.73-8.835L2.6 2.25h6.817l4.711 6.231 5.416-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
             <a href="https://www.instagram.com/adamcmoreno" class="social-icon-link" target="_blank" title="Instagram">
                 <i class="fab fa-instagram"></i>
@@ -665,15 +819,20 @@
         if (carousel) {
             let isScrolling = false;
             const scrollSpeed = 1;
-            const itemWidth = 280 + 20; // item width + gap
-            const totalItemsHalf = 6; // half the total items (original set)
 
             function autoScroll() {
                 carousel.scrollLeft += scrollSpeed;
 
-                // When we've scrolled past the first set, reset to beginning
-                if (carousel.scrollLeft >= itemWidth * totalItemsHalf) {
-                    carousel.scrollLeft = 0;
+                // Get the first item to calculate its width dynamically
+                const firstItem = carousel.querySelector('.short-item');
+                if (firstItem) {
+                    const itemWidth = firstItem.offsetWidth + 20; // item width + gap
+                    const totalItemsHalf = 6; // half the total items (original set)
+
+                    // When we've scrolled past the first set, reset to beginning
+                    if (carousel.scrollLeft >= itemWidth * totalItemsHalf) {
+                        carousel.scrollLeft = 0;
+                    }
                 }
 
                 requestAnimationFrame(autoScroll);
