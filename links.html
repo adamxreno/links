@@ -17,7 +17,6 @@
 
         html {
             scroll-behavior: smooth;
-            background: #00c879;
         }
 
         @keyframes fadeIn {
@@ -229,6 +228,32 @@
             background: #0a0a0a;
             color: #ffffff;
             line-height: 1.7;
+            position: relative;
+        }
+
+        .background-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('linksbackground.JPG');
+            background-position: top center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: -999;
+            pointer-events: none;
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.75);
+            z-index: -998;
+            pointer-events: none;
         }
 
         header {
@@ -679,6 +704,8 @@
     </style>
 </head>
 <body>
+    <div class="background-img"></div>
+    <div class="background-overlay"></div>
     <header>
         <div class="header-container">
             <a href="/" class="logo">
@@ -815,45 +842,44 @@
         });
 
         // Infinite Shorts carousel scroll
-        const carousel = document.querySelector('.shorts-carousel-auto');
-        if (carousel) {
-            const scrollSpeed = 1;
-            let resetPoint = 0;
+        window.addEventListener('load', function() {
+            const carousel = document.querySelector('.shorts-carousel-auto');
+            if (carousel) {
+                const scrollSpeed = 1;
 
-            // Calculate reset point when page loads and on resize
-            function calculateResetPoint() {
-                const firstItem = carousel.querySelector('.short-item');
-                if (firstItem) {
+                function startCarouselScroll() {
+                    const firstItem = carousel.querySelector('.short-item');
+                    if (!firstItem || firstItem.offsetWidth === 0) {
+                        // Items not ready yet, try again
+                        setTimeout(startCarouselScroll, 100);
+                        return;
+                    }
+
                     const itemWidth = firstItem.offsetWidth + 20; // item width + gap
-                    resetPoint = itemWidth * 6; // 6 original items
+                    const resetPoint = itemWidth * 6; // 6 original items
+
+                    function autoScroll() {
+                        carousel.scrollLeft += scrollSpeed;
+
+                        // When we've scrolled past the first set, reset to beginning
+                        if (carousel.scrollLeft >= resetPoint) {
+                            carousel.scrollLeft = 0;
+                        }
+
+                        requestAnimationFrame(autoScroll);
+                    }
+
+                    autoScroll();
                 }
+
+                startCarouselScroll();
+
+                // Recalculate on resize
+                window.addEventListener('resize', function() {
+                    setTimeout(startCarouselScroll, 100);
+                });
             }
-
-            calculateResetPoint();
-            window.addEventListener('resize', calculateResetPoint);
-
-            function autoScroll() {
-                carousel.scrollLeft += scrollSpeed;
-
-                // When we've scrolled past the first set, reset to beginning
-                if (carousel.scrollLeft >= resetPoint) {
-                    carousel.scrollLeft = 0;
-                }
-
-                requestAnimationFrame(autoScroll);
-            }
-
-            autoScroll();
-
-            // Pause on hover
-            carousel.addEventListener('mouseenter', () => {
-                // scroll stops
-            });
-
-            carousel.addEventListener('mouseleave', () => {
-                // scroll resumes (already running)
-            });
-        }
+        });
     </script>
 </body>
 </html>
