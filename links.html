@@ -869,55 +869,7 @@
             observer.observe(section);
         });
 
-        // Infinite Shorts carousel scroll
-        function initCarousel() {
-            const carousel = document.querySelector('.shorts-carousel-auto');
-            if (carousel) {
-                // Use faster scroll speed on mobile
-                const isMobile = window.innerWidth < 768;
-                const scrollSpeed = isMobile ? 2 : 1;
-
-                function startCarouselScroll() {
-                    const firstItem = carousel.querySelector('.short-item');
-                    if (!firstItem || firstItem.offsetWidth === 0) {
-                        // Items not ready yet, try again
-                        setTimeout(startCarouselScroll, 100);
-                        return;
-                    }
-
-                    const itemWidth = firstItem.offsetWidth + 20; // item width + gap
-                    const resetPoint = itemWidth * 6; // 6 original items
-
-                    function autoScroll() {
-                        carousel.scrollLeft += scrollSpeed;
-
-                        // When we've scrolled past the first set, reset to beginning
-                        if (carousel.scrollLeft >= resetPoint) {
-                            carousel.scrollLeft = 0;
-                        }
-
-                        requestAnimationFrame(autoScroll);
-                    }
-
-                    autoScroll();
-                }
-
-                startCarouselScroll();
-
-                // Recalculate on resize
-                window.addEventListener('resize', function() {
-                    setTimeout(startCarouselScroll, 100);
-                });
-            }
-        }
-
-        // Run carousel init immediately and on load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initCarousel);
-        } else {
-            initCarousel();
-        }
-        window.addEventListener('load', initCarousel);
+        // Carousel animation is now handled by CSS
     </script>
 </body>
 </html>
