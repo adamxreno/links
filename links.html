@@ -700,6 +700,19 @@
                 max-width: 500px;
                 padding: 0;
             }
+
+            .shorts-section {
+                padding: 80px 0;
+            }
+
+            .shorts-carousel {
+                padding: 20px 0 !important;
+                gap: 15px;
+            }
+
+            .short-item {
+                flex: 0 0 220px;
+            }
         }
     </style>
 </head>
@@ -842,10 +855,12 @@
         });
 
         // Infinite Shorts carousel scroll
-        window.addEventListener('load', function() {
+        function initCarousel() {
             const carousel = document.querySelector('.shorts-carousel-auto');
             if (carousel) {
-                const scrollSpeed = 1;
+                // Use faster scroll speed on mobile
+                const isMobile = window.innerWidth < 768;
+                const scrollSpeed = isMobile ? 2 : 1;
 
                 function startCarouselScroll() {
                     const firstItem = carousel.querySelector('.short-item');
@@ -879,7 +894,15 @@
                     setTimeout(startCarouselScroll, 100);
                 });
             }
-        });
+        }
+
+        // Run carousel init immediately and on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCarousel);
+        } else {
+            initCarousel();
+        }
+        window.addEventListener('load', initCarousel);
     </script>
 </body>
 </html>
