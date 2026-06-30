@@ -222,20 +222,6 @@
             }
         }
 
-        @keyframes slideCarousel {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .shorts-carousel-auto {
-            animation: slideCarousel 200s linear infinite;
-            will-change: transform;
-            transform-origin: 0 0;
-        }
 
 
         body {
@@ -871,7 +857,49 @@
             observer.observe(section);
         });
 
-        // Carousel animation is now handled by CSS
+        // Infinite Shorts carousel scroll
+        function initCarousel() {
+            const carousel = document.querySelector('.shorts-carousel-auto');
+            if (carousel) {
+                const scrollSpeed = 0.5;
+
+                function startCarouselScroll() {
+                    const firstItem = carousel.querySelector('.short-item');
+                    if (!firstItem || firstItem.offsetWidth === 0) {
+                        setTimeout(startCarouselScroll, 100);
+                        return;
+                    }
+
+                    const itemWidth = firstItem.offsetWidth + 20;
+                    const resetPoint = itemWidth * 6;
+
+                    function autoScroll() {
+                        carousel.scrollLeft += scrollSpeed;
+
+                        if (carousel.scrollLeft >= resetPoint) {
+                            carousel.scrollLeft = 0;
+                        }
+
+                        requestAnimationFrame(autoScroll);
+                    }
+
+                    autoScroll();
+                }
+
+                startCarouselScroll();
+
+                window.addEventListener('resize', function() {
+                    setTimeout(startCarouselScroll, 100);
+                });
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCarousel);
+        } else {
+            initCarousel();
+        }
+        window.addEventListener('load', initCarousel);
     </script>
 </body>
 </html>
