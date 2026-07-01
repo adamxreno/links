@@ -412,6 +412,15 @@
             letter-spacing: -0.5px;
         }
 
+        @keyframes slideCarousel {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
         .shorts-carousel {
             display: flex;
             gap: 20px;
@@ -419,6 +428,10 @@
             scroll-behavior: smooth;
             padding: 20px 0;
             -webkit-overflow-scrolling: touch;
+        }
+
+        .shorts-carousel-auto {
+            animation: slideCarousel 200s linear infinite;
         }
 
         .shorts-carousel::-webkit-scrollbar {
@@ -716,7 +729,7 @@
             }
 
             .shorts-carousel-auto {
-                animation: slideCarousel 700s linear infinite !important;
+                animation: none;
             }
         }
     </style>
