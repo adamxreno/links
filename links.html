@@ -415,8 +415,10 @@
         .shorts-carousel {
             display: flex;
             gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
             padding: 20px 0;
-            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
         }
 
         .shorts-carousel::-webkit-scrollbar {
