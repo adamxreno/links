@@ -875,9 +875,11 @@
         // Infinite Shorts carousel scroll
         function initCarousel() {
             const carousel = document.querySelector('.shorts-carousel-auto');
-            if (carousel) {
-                const isMobile = window.innerWidth < 768;
-                const scrollSpeed = isMobile ? 3 : 0.5;
+            const isMobile = window.innerWidth < 768;
+
+            // Only auto-scroll on desktop, allow manual swipe on mobile
+            if (carousel && !isMobile) {
+                const scrollSpeed = 0.5;
 
                 function startCarouselScroll() {
                     const firstItem = carousel.querySelector('.short-item');
