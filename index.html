@@ -178,6 +178,16 @@
         .about-content p {
             margin-bottom: 20px;
         }
+        .about-photo {
+            transform: scale(1) translateY(0) rotate(0deg);
+            box-shadow: none;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+        .about-photo:hover {
+            transform: scale(1.03) translateY(-10px) rotate(-3deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
         .content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -443,8 +453,7 @@
                 <span class="logo-short">ACM</span>
             </a>
             <nav>
-                <a href="#about">About</a>
-                <a href="#content">Work</a>
+                <a href="https://www.adamcmoreno.com/links">Home</a>
             </nav>
         </div>
     </header>
@@ -459,7 +468,7 @@
                 <p style="margin-top: 24px;">Together.</p>
             </div>
             <div>
-                <img src="https://i.imgur.com/LG4vVCq.png" alt="Adam C. Moreno" style="width: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 3/4; transition: all 0.4s ease; cursor: pointer; margin-bottom: 16px;" onmouseover="this.style.transform='scale(1.03) translateY(-10px) rotate(-3deg)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.4)'" onmouseout="this.style.transform='scale(1) translateY(0) rotate(0deg)'; this.style.boxShadow='none'">
+                <img src="https://i.imgur.com/LG4vVCq.png" alt="Adam C. Moreno" class="about-photo" style="width: 100%; border-radius: 8px; object-fit: cover; aspect-ratio: 3/4; margin-bottom: 14px;">
                 <p style="font-size: 16px; font-weight: 600; color: #f5f5f5; margin: 0; line-height: 1.6;">Founder of Public Good.<br>Host of The Adam C. Moreno Show.</p>
             </div>
         </div>
