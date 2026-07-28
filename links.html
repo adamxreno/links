@@ -14,11 +14,9 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         html {
             scroll-behavior: smooth;
         }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -27,7 +25,6 @@
                 opacity: 1;
             }
         }
-
         @keyframes envelopeShake {
             0% {
                 transform: rotate(0deg) translateX(0);
@@ -45,7 +42,6 @@
                 transform: rotate(0deg) translateX(0);
             }
         }
-
         @keyframes staggerReveal {
             0% {
                 opacity: 0;
@@ -56,7 +52,6 @@
                 transform: translateY(0);
             }
         }
-
         @keyframes staggerRevealYoutube {
             0% {
                 opacity: 0;
@@ -74,7 +69,6 @@
                 background-color: #1a1a1a;
             }
         }
-
         @keyframes staggerRevealSubstack {
             0% {
                 opacity: 0;
@@ -92,7 +86,6 @@
                 background-color: #1a1a1a;
             }
         }
-
         @keyframes staggerRevealX {
             0% {
                 opacity: 0;
@@ -110,7 +103,6 @@
                 background-color: #1a1a1a;
             }
         }
-
         @keyframes staggerRevealInstagram {
             0% {
                 opacity: 0;
@@ -128,7 +120,6 @@
                 background: #1a1a1a;
             }
         }
-
         @keyframes staggerRevealTiktok {
             0% {
                 opacity: 0;
@@ -146,7 +137,6 @@
                 background: #1a1a1a;
             }
         }
-
         @keyframes staggerRevealEmail {
             0% {
                 opacity: 0;
@@ -164,7 +154,6 @@
                 background-color: #1a1a1a;
             }
         }
-
         @keyframes paperSlideOut {
             0% {
                 transform: translateY(0) scale(1);
@@ -176,7 +165,6 @@
                 transform: translateY(-12px) scale(1.08);
             }
         }
-
         @keyframes envelopeBounce {
             0% {
                 transform: translateY(0);
@@ -188,7 +176,6 @@
                 transform: translateY(0);
             }
         }
-
         @keyframes envelopeSpin {
             0% {
                 transform: rotate(0deg);
@@ -197,7 +184,6 @@
                 transform: rotate(360deg);
             }
         }
-
         @keyframes envelopeFloat {
             0% {
                 transform: translateY(0);
@@ -209,7 +195,6 @@
                 transform: translateY(0);
             }
         }
-
         @keyframes envelopePulse {
             0% {
                 transform: scale(1);
@@ -221,9 +206,14 @@
                 transform: scale(1);
             }
         }
-
-
-
+        @keyframes iconFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
             background: #0a0a0a;
@@ -231,7 +221,6 @@
             line-height: 1.7;
             position: relative;
         }
-
         .background-img {
             position: fixed;
             top: 0;
@@ -245,7 +234,6 @@
             z-index: -999;
             pointer-events: none;
         }
-
         .background-overlay {
             position: fixed;
             top: 0;
@@ -256,7 +244,6 @@
             z-index: -998;
             pointer-events: none;
         }
-
         header {
             padding: 30px 0;
             border-bottom: 1px solid #222;
@@ -265,7 +252,6 @@
             background: #0a0a0a;
             z-index: 100;
         }
-
         .header-container {
             max-width: 1000px;
             margin: 0 auto;
@@ -274,7 +260,6 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .logo {
             font-family: 'Anton', sans-serif;
             font-size: 28px;
@@ -288,18 +273,15 @@
             height: 28px;
             line-height: 28px;
         }
-
         .logo-full {
             display: inline-block;
             transition: opacity 0.5s ease;
             opacity: 1;
         }
-
         .logo-full.hidden {
             opacity: 0;
             transition: opacity 0.5s ease;
         }
-
         .logo-short {
             display: inline-block;
             position: absolute;
@@ -308,16 +290,13 @@
             transition: opacity 0.5s ease;
             opacity: 0;
         }
-
         .logo-short.visible {
             opacity: 1;
         }
-
         nav {
             display: flex;
             gap: 40px;
         }
-
         nav a {
             text-decoration: none;
             color: #999;
@@ -326,11 +305,9 @@
             transition: all 0.3s ease;
             position: relative;
         }
-
         nav a:hover {
             color: #fff;
         }
-
         nav a::after {
             content: '';
             position: absolute;
@@ -341,26 +318,21 @@
             background: #fff;
             transition: width 0.3s ease;
         }
-
         nav a:hover::after {
             width: 100%;
         }
-
         section {
             opacity: 0;
         }
-
         section.visible {
             animation: fadeIn 1.0s ease-out forwards;
         }
-
         .profile-container {
             max-width: 600px;
             margin: 0 auto;
             padding: 80px 40px;
             text-align: center;
         }
-
         .profile-image {
             width: 160px;
             height: 160px;
@@ -371,16 +343,13 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
-
         .profile-image:hover {
             transform: scale(1.05);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
         }
-
         .profile-header {
             margin-bottom: 16px;
         }
-
         .username {
             font-size: 28px;
             font-weight: 700;
@@ -390,20 +359,17 @@
             gap: 8px;
             margin-bottom: 8px;
         }
-
         .verified {
             width: 24px;
             height: 24px;
             display: inline-block;
             margin-left: -6px;
         }
-
         .shorts-section {
             max-width: 1200px;
             margin: 0 auto;
             padding: 80px 40px;
         }
-
         .shorts-title {
             text-align: center;
             font-size: 32px;
@@ -411,7 +377,6 @@
             margin-bottom: 50px;
             letter-spacing: -0.5px;
         }
-
         @keyframes slideCarousel {
             0% {
                 transform: translateX(0);
@@ -420,7 +385,6 @@
                 transform: translateX(-50%);
             }
         }
-
         .shorts-carousel {
             display: flex;
             gap: 20px;
@@ -429,20 +393,16 @@
             padding: 20px 0;
             -webkit-overflow-scrolling: touch;
         }
-
         .shorts-carousel-auto {
             animation: slideCarousel 200s linear infinite;
         }
-
         .shorts-carousel::-webkit-scrollbar {
             display: none;
         }
-
         .shorts-carousel {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-
         .short-item {
             flex: 0 0 280px;
             aspect-ratio: 9/16;
@@ -455,25 +415,21 @@
             opacity: 0;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
-
         .short-item:nth-child(1) { animation-delay: 0.1s; }
         .short-item:nth-child(2) { animation-delay: 0.2s; }
         .short-item:nth-child(3) { animation-delay: 0.3s; }
         .short-item:nth-child(4) { animation-delay: 0.4s; }
         .short-item:nth-child(5) { animation-delay: 0.5s; }
         .short-item:nth-child(6) { animation-delay: 0.6s; }
-
         .short-item:hover {
             transform: translateY(-8px);
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
-
         .short-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .banner-section {
             width: 100%;
             margin-top: 0;
@@ -481,7 +437,6 @@
             display: flex;
             justify-content: center;
         }
-
         .banner-link {
             display: inline-block;
             max-width: 100%;
@@ -490,7 +445,6 @@
             padding: 20px;
             border-radius: 16px;
         }
-
         .banner-link img {
             display: block;
             width: auto;
@@ -499,22 +453,18 @@
             transition: transform 0.3s ease;
             border-radius: 12px;
         }
-
         .banner-link:hover img {
             transform: scale(1.02);
         }
-
         .shorts-carousel-auto {
             animation: none;
         }
-
         .tagline {
             font-size: 18px;
             color: #aaa;
             font-weight: 400;
             margin-bottom: 48px;
         }
-
         .social-icons {
             display: flex;
             justify-content: center;
@@ -522,7 +472,6 @@
             flex-wrap: wrap;
             margin-bottom: 60px;
         }
-
         .social-icon-link {
             width: 56px;
             height: 56px;
@@ -536,42 +485,35 @@
             transition: all 0.3s ease;
             font-size: 24px;
         }
-
         .social-icon-link:hover {
             background: #fff;
             color: #000;
             transform: scale(1.15) translateY(-3px);
             box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+            animation-play-state: paused;
         }
-
         .substack-icon {
             filter: invert(1);
             width: 24px;
             height: 24px;
         }
-
         .social-icon-link:hover .substack-icon {
             filter: none;
         }
-
         .social-icon-link[title="Substack"]:hover {
             background-color: #fe5900;
         }
-
         .social-icon-link[title="Substack"]:hover .substack-icon {
             filter: invert(1);
         }
-
         .social-icon-link[title="YouTube"]:hover {
             background-color: #ff0035;
             color: #ffffff;
         }
-
         .social-icon-link[title="X"]:hover {
             background-color: #01050b;
             color: #ffffff;
         }
-
         .social-icon-link[title="Instagram"]:hover {
             background-image: url('https://i.imgur.com/ZizV2nb.png');
             background-size: cover;
@@ -579,7 +521,6 @@
             background-color: #1a1a1a;
             color: #ffffff;
         }
-
         .social-icon-link[title="TikTok"]:hover {
             background-image: url('https://i.imgur.com/KvrGorU.png');
             background-size: cover;
@@ -587,50 +528,38 @@
             background-color: #1a1a1a;
             color: #ffffff;
         }
-
         .social-icon-link[title="TikTok"]:hover i.fab.fa-tiktok {
             opacity: 0;
         }
-
         .social-icon-link[title="Email"]:hover {
             background-color: #0A66C2;
             color: #ffffff;
         }
-
         .social-icon-link[title="Email"] {
             perspective: 1000px;
         }
-
         .social-icon-link[title="Email"]:hover i.fas.fa-envelope {
             animation: envelopeShake 0.5s ease-in-out infinite;
             transform-style: preserve-3d;
         }
-
-
         .social-icon-link:nth-child(1) {
-            animation: staggerRevealX 0.8s ease-out 0s;
+            animation: staggerRevealX 0.8s ease-out 0s, iconFloat 2.1s ease-in-out 0.8s infinite;
         }
-
         .social-icon-link:nth-child(2) {
-            animation: staggerRevealYoutube 0.8s ease-out 0.15s;
+            animation: staggerRevealYoutube 0.8s ease-out 0.15s, iconFloat 2.1s ease-in-out 1.05s infinite;
         }
-
         .social-icon-link:nth-child(3) {
-            animation: staggerRevealSubstack 0.8s ease-out 0.3s;
+            animation: staggerRevealSubstack 0.8s ease-out 0.3s, iconFloat 2.1s ease-in-out 1.3s infinite;
         }
-
         .social-icon-link:nth-child(4) {
-            animation: staggerRevealInstagram 0.8s ease-out 0.45s;
+            animation: staggerRevealInstagram 0.8s ease-out 0.45s, iconFloat 2.1s ease-in-out 1.55s infinite;
         }
-
         .social-icon-link:nth-child(5) {
-            animation: staggerRevealTiktok 0.8s ease-out 0.6s;
+            animation: staggerRevealTiktok 0.8s ease-out 0.6s, iconFloat 2.1s ease-in-out 1.8s infinite;
         }
-
         .social-icon-link:nth-child(6) {
-            animation: staggerRevealEmail 0.8s ease-out 0.75s;
+            animation: staggerRevealEmail 0.8s ease-out 0.75s, iconFloat 2.1s ease-in-out 2.05s infinite;
         }
-
         .links-grid {
             max-width: 600px;
             margin: 0 auto;
@@ -639,7 +568,6 @@
             flex-direction: column;
             gap: 12px;
         }
-
         .link-item {
             padding: 16px 24px;
             background: #f9f9f9;
@@ -652,15 +580,12 @@
             animation: fadeIn 1.0s ease-out forwards;
             opacity: 0;
         }
-
         .link-item:nth-child(1) { animation-delay: 0.1s; }
         .link-item:nth-child(2) { animation-delay: 0.2s; }
         .link-item:nth-child(3) { animation-delay: 0.3s; }
         .link-item:nth-child(4) { animation-delay: 0.4s; }
         .link-item:nth-child(5) { animation-delay: 0.5s; }
         .link-item:nth-child(6) { animation-delay: 0.6s; }
-
-
         footer {
             background: #0a0a0a;
             padding: 40px;
@@ -669,65 +594,51 @@
             font-size: 14px;
             border-top: 1px solid #222;
         }
-
         @media (max-width: 768px) {
             .profile-container {
                 padding: 60px 20px;
             }
-
             .username {
                 font-size: 24px;
             }
-
             .tagline {
                 font-size: 16px;
             }
-
             nav {
                 gap: 20px;
                 font-size: 13px;
             }
-
             .header-container {
                 padding: 0 20px;
             }
-
             .links-grid {
                 padding: 0 20px 60px;
             }
-
             .social-icons {
                 gap: 16px;
             }
-
             .social-icon-link {
                 width: 48px;
                 height: 48px;
                 font-size: 20px;
             }
-
             .banner-section {
                 padding: 0 20px;
             }
-
             .banner-link {
                 max-width: 500px;
                 padding: 0;
             }
-
             .shorts-section {
                 padding: 80px 0;
             }
-
             .shorts-carousel {
                 padding: 20px 0 !important;
                 gap: 15px;
             }
-
             .short-item {
                 flex: 0 0 220px;
             }
-
             .shorts-carousel-auto {
                 animation: none;
             }
@@ -748,10 +659,8 @@
             </nav>
         </div>
     </header>
-
     <section class="profile-container">
         <img src="https://i.imgur.com/dGOGkyE.jpeg" alt="Adam C. Moreno" class="profile-image">
-
         <div class="profile-header">
             <div class="username">
                 @AdamCMoreno
@@ -759,7 +668,6 @@
             </div>
             <p class="tagline">The conversations we have today become the future we live tomorrow.</p>
         </div>
-
         <div class="social-icons">
             <a href="https://x.com/adamcmoreno" class="social-icon-link" target="_blank" title="X">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.65l-5.207-6.802-5.997 6.802h-3.31l7.73-8.835L2.6 2.25h6.817l4.711 6.231 5.416-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -780,18 +688,15 @@
                 <i class="fas fa-envelope"></i>
             </a>
         </div>
-
         <div style="margin: 40px auto; max-width: 500px;">
             <blockquote class="twitter-tweet"><a href="https://twitter.com/AdamCMoreno/status/1652401905161883648?ref_src=twsrc%5Etfw"></a></blockquote>
         </div>
     </section>
-
     <section class="banner-section">
         <a href="https://www.youtube.com/@AdamCMoreno" target="_blank" class="banner-link">
             <img src="https://i.imgur.com/mxAxzN3.png" alt="The Adam C. Moreno Show">
         </a>
     </section>
-
     <section class="shorts-section">
         <div class="shorts-carousel shorts-carousel-auto">
             <a href="https://www.youtube.com/shorts/ewwvCNg-0Yo" target="_blank" class="short-item">
@@ -833,16 +738,13 @@
             </a>
         </div>
     </section>
-
     <footer>
         <p>&copy; 2026 Adam C. Moreno. All rights reserved.</p>
     </footer>
-
     <script>
         // Logo animation on scroll
         const logoFull = document.querySelector('.logo-full');
         const logoShort = document.querySelector('.logo-short');
-
         window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
                 logoFull.classList.add('hidden');
@@ -852,14 +754,12 @@
                 logoShort.classList.remove('visible');
             }
         });
-
         // Section fade-in on scroll
         const sections = document.querySelectorAll('section');
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -100px 0px'
         };
-
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -867,51 +767,39 @@
                 }
             });
         }, observerOptions);
-
         sections.forEach(section => {
             observer.observe(section);
         });
-
         // Infinite Shorts carousel scroll
         function initCarousel() {
             const carousel = document.querySelector('.shorts-carousel-auto');
             const isMobile = window.innerWidth < 768;
-
             // Only auto-scroll on desktop, allow manual swipe on mobile
             if (carousel && !isMobile) {
                 const scrollSpeed = 0.5;
-
                 function startCarouselScroll() {
                     const firstItem = carousel.querySelector('.short-item');
                     if (!firstItem || firstItem.offsetWidth === 0) {
                         setTimeout(startCarouselScroll, 100);
                         return;
                     }
-
                     const itemWidth = firstItem.offsetWidth + 20;
                     const resetPoint = itemWidth * 6;
-
                     function autoScroll() {
                         carousel.scrollLeft += scrollSpeed;
-
                         if (carousel.scrollLeft >= resetPoint) {
                             carousel.scrollLeft = 0;
                         }
-
                         requestAnimationFrame(autoScroll);
                     }
-
                     autoScroll();
                 }
-
                 startCarouselScroll();
-
                 window.addEventListener('resize', function() {
                     setTimeout(startCarouselScroll, 100);
                 });
             }
         }
-
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initCarousel);
         } else {
