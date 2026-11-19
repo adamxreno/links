@@ -857,6 +857,8 @@
         let y = Math.max(80, innerHeight * .55);
         let angle = 0, speed = 0, steer = 0, dragging = false;
         let lastTime = 0, lastTires = null;
+        const skidSegments = [];
+        const skidHoldMs = 7000, skidFadeMs = 1000;
         const topSpeed = 395, reverseSpeed = -145;
         const acceleration = 440, braking = 660, rollingDrag = 155;
         const steeringRate = 2.65, steeringSmoothness = 9;
@@ -888,18 +890,31 @@
             y: cy - forwardY * back + rightY * side * sign
           }));
         }
-        function fadeTracks(dt) {
-          // Fade old tire marks naturally, with no permanent page staining.
+        function renderTracks(now) {
+          // Keep each individual skid segment fully visible for seven seconds,
+          // then fade it away completely over the following second.
+          ctx.clearRect(0, 0, innerWidth, innerHeight);
+          while (skidSegments.length && now - skidSegments[0].createdAt >= skidHoldMs + skidFadeMs) {
+            skidSegments.shift();
+          }
           ctx.save();
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.fillStyle = `rgba(0,0,0,${1 - Math.exp(-.42 * dt)})`;
-          ctx.fillRect(0, 0, innerWidth, innerHeight);
+          ctx.lineCap = 'round';
+          for (const segment of skidSegments) {
+            const age = now - segment.createdAt;
+            const opacity = age <= skidHoldMs ? 1 : Math.max(0, 1 - (age - skidHoldMs) / skidFadeMs);
+            ctx.strokeStyle = `rgba(15, 17, 20, ${segment.alpha * opacity})`;
+            ctx.lineWidth = segment.width;
+            ctx.beginPath();
+            ctx.moveTo(segment.x1, segment.y1);
+            ctx.lineTo(segment.x2, segment.y2);
+            ctx.stroke();
+          }
           ctx.restore();
         }
         function tick(time) {
           const dt = Math.min((time - (lastTime || time)) / 1000, .035);
           lastTime = time;
-          fadeTracks(dt);
+
           if (!dragging) {
             const gas = keys.has('up'), brake = keys.has('down');
             const turnInput = Number(keys.has('right')) - Number(keys.has('left'));
@@ -926,21 +941,20 @@
               const tires = tirePositions();
               const hardCorner = Math.abs(steer) > .62 && Math.abs(speed) > 125 && rotation > .9;
               if (hardCorner && lastTires) {
-                ctx.save();
-                ctx.strokeStyle = `rgba(15, 17, 20, ${clamp((Math.abs(speed) - 90) / 620, .08, .32)})`;
-                ctx.lineWidth = Math.max(1.6, car.offsetWidth * .038);
-                ctx.lineCap = 'round';
+                const alpha = clamp((Math.abs(speed) - 90) / 620, .08, .32);
+                const width = Math.max(1.6, car.offsetWidth * .038);
                 for (let i = 0; i < 2; i++) {
-                  ctx.beginPath();
-                  ctx.moveTo(lastTires[i].x, lastTires[i].y);
-                  ctx.lineTo(tires[i].x, tires[i].y);
-                  ctx.stroke();
+                  skidSegments.push({
+                    x1: lastTires[i].x, y1: lastTires[i].y,
+                    x2: tires[i].x, y2: tires[i].y,
+                    alpha, width, createdAt: time
+                  });
                 }
-                ctx.restore();
               }
               lastTires = tires;
             } else lastTires = null;
           } else lastTires = null;
+          renderTracks(time);
           draw();
           requestAnimationFrame(tick);
         }
