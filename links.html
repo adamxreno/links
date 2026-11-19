@@ -646,19 +646,20 @@
         }
 
         /* Optional interactive WRX hatchback. Existing site styling is unchanged. */
-        #wrx-car { position: fixed; left: 0; top: 0; width: 65px; height: 106px; z-index: 130; touch-action: none; cursor: grab; pointer-events: auto; user-select: none; filter: drop-shadow(0 8px 9px rgba(0,0,0,.55)); will-change: transform; }
+        #wrx-car { position: fixed; left: 0; top: 0; width: 24px; height: 39px; z-index: 132; touch-action: none; cursor: grab; pointer-events: auto; user-select: none; filter: drop-shadow(0 8px 9px rgba(0,0,0,.55)); will-change: transform; }
         #wrx-car:active { cursor: grabbing; }
         #wrx-skids { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 129; pointer-events: none; }
         #wrx-car img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; }
-        #wrx-controls { position: fixed; right: 16px; bottom: 17px; z-index: 131; display: grid; grid-template-columns: repeat(3, 39px); grid-template-rows: repeat(3, 39px); gap: 4px; align-items: center; justify-items: center; user-select: none; }
-        #wrx-controls button { background: rgba(21,24,31,.88); border: 1px solid rgba(255,255,255,.22); color: white; border-radius: 9px; height: 39px; width: 39px; display: grid; place-items: center; cursor: pointer; font-size: 21px; font-family: system-ui, sans-serif; line-height: 1; touch-action: none; -webkit-tap-highlight-color: transparent; backdrop-filter: blur(8px); box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+        #wrx-controls { position: fixed; left: 0; top: 0; z-index: 131; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .45s ease, visibility .45s ease; display: grid; grid-template-columns: repeat(3, 39px); grid-template-rows: repeat(3, 39px); gap: 4px; align-items: center; justify-items: center; user-select: none; }
+        #wrx-controls.wrx-visible { opacity: .72; visibility: visible; pointer-events: auto; }
+        #wrx-controls button { background: rgba(21,24,31,.58); border: 1px solid rgba(255,255,255,.19); color: white; border-radius: 9px; height: 39px; width: 39px; display: grid; place-items: center; cursor: pointer; font-size: 21px; font-family: system-ui, sans-serif; line-height: 1; touch-action: none; -webkit-tap-highlight-color: transparent; backdrop-filter: blur(8px); box-shadow: 0 2px 8px rgba(0,0,0,.25); }
         #wrx-controls button:is(:hover,:active) { background: #2368b6; }
         #wrx-controls .wrx-up { grid-column: 2; grid-row: 1; }
         #wrx-controls .wrx-left { grid-column: 1; grid-row: 2; }
         #wrx-controls .wrx-right { grid-column: 3; grid-row: 2; }
         #wrx-controls .wrx-down { grid-column: 2; grid-row: 3; }
         #wrx-controls .wrx-label { grid-column: 2; grid-row: 2; font-size: 9px; font-weight: 750; letter-spacing: .06em; color: #d5e9ff; text-align: center; text-shadow: 0 1px 2px #000; }
-        @media (max-width: 600px) { #wrx-car { width: 50px; height: 82px; } #wrx-controls { right: 9px; bottom: 10px; grid-template-columns: repeat(3, 35px); grid-template-rows: repeat(3, 35px); gap: 3px; } #wrx-controls button { width: 35px; height: 35px; } }
+        @media (max-width: 600px) { #wrx-car { width: 20px; height: 33px; } #wrx-controls { grid-template-columns: repeat(3, 35px); grid-template-rows: repeat(3, 35px); gap: 3px; } #wrx-controls button { width: 35px; height: 35px; } }
     </style>
 </head>
 <body>
@@ -841,7 +842,7 @@
     <div id="wrx-controls" aria-label="Drive the WRX around the website">
       <button type="button" class="wrx-up" data-wrx-direction="up" aria-label="Drive up">↑</button>
       <button type="button" class="wrx-left" data-wrx-direction="left" aria-label="Drive left">←</button>
-      <span class="wrx-label">DRIVE</span>
+      <span class="wrx-label" aria-hidden="true"></span>
       <button type="button" class="wrx-right" data-wrx-direction="right" aria-label="Drive right">→</button>
       <button type="button" class="wrx-down" data-wrx-direction="down" aria-label="Drive down">↓</button>
     </div>
@@ -853,9 +854,43 @@
         const keys = new Set();
         const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
         // The car image faces upward at zero degrees. Movement follows the hood.
-        let x = Math.min(innerWidth * .19, 220);
-        let y = Math.max(80, innerHeight * .55);
-        let angle = 0, speed = 0, steer = 0, dragging = false;
+        // Each visit gets a different edge, approach lane, and parking position.
+        // The heading stays aligned with the path throughout the entrance.
+        const arrivalEdge = Math.floor(Math.random() * 4);
+        const carW = innerWidth <= 600 ? 20 : 24;
+        const carH = innerWidth <= 600 ? 33 : 39;
+        const rand = (min, max) => min + Math.random() * Math.max(0, max - min);
+        const screenInset = 72;
+        const arrivalX = rand(Math.min(screenInset, innerWidth * .2), Math.max(screenInset, innerWidth - screenInset - carW));
+        const arrivalY = rand(Math.min(screenInset, innerHeight * .2), Math.max(screenInset, innerHeight - screenInset - carH));
+        const introFrom = [
+          { x: -carH - 24, y: arrivalY, heading: Math.PI / 2 },
+          { x: innerWidth + carH + 24, y: arrivalY, heading: -Math.PI / 2 },
+          { x: arrivalX, y: -carH - 24, heading: Math.PI },
+          { x: arrivalX, y: innerHeight + carH + 24, heading: 0 }
+        ][arrivalEdge];
+        let x = introFrom.x, y = introFrom.y;
+        let angle = introFrom.heading, speed = 0, steer = 0, dragging = false;
+        const controls = document.getElementById('wrx-controls');
+        let introStart = null, introActive = true;
+        const introDelay = 5000;
+        let controlsUntil = 0;
+        const introDuration = 2000;
+        function revealControls(duration = 3050) {
+          controlsUntil = performance.now() + duration;
+          controls.classList.add('wrx-visible');
+        }
+        function placeControls() {
+          // The hints follow the tiny car, but never extend off the screen.
+          const cw = controls.offsetWidth, ch = controls.offsetHeight;
+          const cx = x + car.offsetWidth / 2;
+          const preferredX = cx - cw / 2;
+          const preferredY = y + car.offsetHeight / 2 - ch / 2;
+          const left = clamp(preferredX, 5, Math.max(5, innerWidth - cw - 5));
+          const top = preferredY;
+          controls.style.transform = `translate3d(${left}px, ${clamp(top, 5, Math.max(5, innerHeight - ch - 5))}px, 0)`;
+        }
+        function cancelIntro() { introActive = false; introStart = null; }
         let lastTime = 0, lastTires = null;
         const skidSegments = [];
         const skidHoldMs = 7000, skidFadeMs = 1000;
@@ -873,6 +908,7 @@
         function keepInView() {
           const halfWidth = car.offsetWidth / 2, halfHeight = car.offsetHeight / 2;
           const radius = Math.hypot(halfWidth, halfHeight);
+          if (introActive) return;
           x = clamp(x, -halfWidth + radius, Math.max(-halfWidth + radius, innerWidth - halfWidth - radius));
           y = clamp(y, -halfHeight + radius, Math.max(-halfHeight + radius, innerHeight - halfHeight - radius));
         }
@@ -915,7 +951,21 @@
           const dt = Math.min((time - (lastTime || time)) / 1000, .035);
           lastTime = time;
 
-          if (!dragging) {
+          if (introActive) {
+            if (introStart === null) introStart = time + introDelay;
+            const t = Math.max(0, Math.min(1, (time - introStart) / introDuration));
+            // Roll in from the chosen edge and coast to a stop without snapping.
+            const eased = 1 - Math.pow(1 - t, 3);
+            x = introFrom.x + (arrivalX - introFrom.x) * eased;
+            y = introFrom.y + (arrivalY - introFrom.y) * eased;
+            if (t >= 1) {
+              introActive = false;
+              // Keep the same heading throughout the arrival: no rotation snap.
+              placeControls();
+              revealControls(3050);
+            }
+          }
+          if (!introActive && !dragging) {
             const gas = keys.has('up'), brake = keys.has('down');
             const turnInput = Number(keys.has('right')) - Number(keys.has('left'));
             steer += (turnInput - steer) * (1 - Math.exp(-steeringSmoothness * dt));
@@ -956,6 +1006,13 @@
           } else lastTires = null;
           renderTracks(time);
           draw();
+          // Keep the arrow pad centered around the car even while hidden; never jump at reveal.
+          placeControls();
+          if (controls.classList.contains('wrx-visible')) {
+            if (time > controlsUntil && keys.size === 0 && !dragging) {
+              controls.classList.remove('wrx-visible');
+            }
+          }
           requestAnimationFrame(tick);
         }
         const directions = {
@@ -968,7 +1025,7 @@
         }
         window.addEventListener('keydown', e => {
           const dir = directions[e.key] || directions[e.key.toLowerCase()];
-          if (dir && !typing()) { keys.add(dir); e.preventDefault(); }
+          if (dir && !typing()) { if (introActive) cancelIntro(); keys.add(dir); revealControls(); e.preventDefault(); }
         });
         window.addEventListener('keyup', e => {
           const dir = directions[e.key] || directions[e.key.toLowerCase()];
@@ -978,7 +1035,7 @@
         document.querySelectorAll('[data-wrx-direction]').forEach(button => {
           const dir = button.dataset.wrxDirection;
           button.addEventListener('pointerdown', e => {
-            e.preventDefault(); button.setPointerCapture(e.pointerId); keys.add(dir);
+            e.preventDefault(); if (introActive) cancelIntro(); button.setPointerCapture(e.pointerId); keys.add(dir); revealControls();
           });
           const stop = () => keys.delete(dir);
           button.addEventListener('pointerup', stop);
@@ -987,6 +1044,8 @@
         });
         let offsetX = 0, offsetY = 0;
         car.addEventListener('pointerdown', e => {
+          if (introActive) cancelIntro();
+          revealControls();
           dragging = true; speed = 0; steer = 0; lastTires = null;
           offsetX = e.clientX - x; offsetY = e.clientY - y;
           car.setPointerCapture(e.pointerId); e.preventDefault();
@@ -1001,7 +1060,7 @@
         car.addEventListener('pointercancel', stopDragging);
         car.addEventListener('lostpointercapture', stopDragging);
         window.addEventListener('resize', () => { resizeCanvas(); keepInView(); draw(); });
-        resizeCanvas(); keepInView(); draw(); requestAnimationFrame(tick);
+        resizeCanvas(); draw(); requestAnimationFrame(tick);
       })();
     </script>
 </body>
