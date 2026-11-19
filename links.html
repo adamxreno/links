@@ -644,6 +644,20 @@
                 animation: none;
             }
         }
+
+        /* Optional interactive WRX hatchback. Existing site styling is unchanged. */
+        #wrx-car { position: fixed; left: 0; top: 0; width: 62px; height: 106px; z-index: 130; touch-action: none; cursor: grab; pointer-events: auto; user-select: none; filter: drop-shadow(0 8px 9px rgba(0,0,0,.55)); will-change: transform; }
+        #wrx-car:active { cursor: grabbing; }
+        #wrx-car svg { display: block; width: 100%; height: 100%; overflow: visible; }
+        #wrx-controls { position: fixed; right: 16px; bottom: 17px; z-index: 131; display: grid; grid-template-columns: repeat(3, 39px); grid-template-rows: repeat(3, 39px); gap: 4px; align-items: center; justify-items: center; user-select: none; }
+        #wrx-controls button { background: rgba(21,24,31,.88); border: 1px solid rgba(255,255,255,.22); color: white; border-radius: 9px; height: 39px; width: 39px; display: grid; place-items: center; cursor: pointer; font-size: 21px; font-family: system-ui, sans-serif; line-height: 1; touch-action: none; -webkit-tap-highlight-color: transparent; backdrop-filter: blur(8px); box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+        #wrx-controls button:is(:hover,:active) { background: #2368b6; }
+        #wrx-controls .wrx-up { grid-column: 2; grid-row: 1; }
+        #wrx-controls .wrx-left { grid-column: 1; grid-row: 2; }
+        #wrx-controls .wrx-right { grid-column: 3; grid-row: 2; }
+        #wrx-controls .wrx-down { grid-column: 2; grid-row: 3; }
+        #wrx-controls .wrx-label { grid-column: 2; grid-row: 2; font-size: 9px; font-weight: 750; letter-spacing: .06em; color: #d5e9ff; text-align: center; text-shadow: 0 1px 2px #000; }
+        @media (max-width: 600px) { #wrx-car { width: 48px; height: 82px; } #wrx-controls { right: 9px; bottom: 10px; grid-template-columns: repeat(3, 35px); grid-template-rows: repeat(3, 35px); gap: 3px; } #wrx-controls button { width: 35px; height: 35px; } }
     </style>
 </head>
 <body>
@@ -816,6 +830,93 @@
             initCarousel();
         }
         window.addEventListener('load', initCarousel);
+    </script>
+
+    <!-- Interactive, top-down rally-blue WRX-inspired hatchback; drag or use arrows/WASD. -->
+    <div id="wrx-car" aria-label="Drag the blue WRX hatchback around the page" title="Drag me, or use arrow keys / WASD">
+      <svg viewBox="0 0 70 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Blue Subaru WRX-style hatchback from above">
+        <defs>
+          <linearGradient id="wrxPaint" x1="0" x2="1"><stop offset="0" stop-color="#084889"/><stop offset=".24" stop-color="#2089eb"/><stop offset=".51" stop-color="#0b65c5"/><stop offset=".79" stop-color="#2083e2"/><stop offset="1" stop-color="#063b7e"/></linearGradient>
+          <linearGradient id="wrxGlass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#293d4d"/><stop offset=".6" stop-color="#101a27"/><stop offset="1" stop-color="#485c67"/></linearGradient>
+        </defs>
+        <!-- Four black tires and compact hatchback silhouette -->
+        <rect x="1" y="24" width="9" height="24" rx="3" fill="#111318" stroke="#353b44" stroke-width="1.5"/>
+        <rect x="60" y="24" width="9" height="24" rx="3" fill="#111318" stroke="#353b44" stroke-width="1.5"/>
+        <rect x="1" y="77" width="9" height="25" rx="3" fill="#111318" stroke="#353b44" stroke-width="1.5"/>
+        <rect x="60" y="77" width="9" height="25" rx="3" fill="#111318" stroke="#353b44" stroke-width="1.5"/>
+        <path d="M21 8 Q35 3 49 8 L57 22 L61 45 L60 92 L55 109 Q35 117 15 109 L10 92 L9 45 L13 22Z" fill="url(#wrxPaint)" stroke="#093561" stroke-width="1.6"/>
+        <!-- front fascia and headlights: front is up -->
+        <path d="M17 10 Q35 6 53 10" fill="none" stroke="#a2d7ff" stroke-width="2" opacity=".8"/>
+        <path d="M13 17 L26 14 L25 21 L14 24Z" fill="#e1effe"/>
+        <path d="M57 17 L44 14 L45 21 L56 24Z" fill="#e1effe"/>
+        <path d="M28 12 L42 12 L40 16 L30 16Z" fill="#0c1d31"/>
+        <!-- Iconic hood scoop -->
+        <path d="M29 31 L41 31 L44 41 L26 41Z" fill="#093b6b" stroke="#64b4fa" stroke-width="1.5"/>
+        <path d="M30 34 L40 34 L41 39 L29 39Z" fill="#101c2a"/>
+        <!-- Windshield and sporty cabin -->
+        <path d="M17 49 Q35 45 53 49 L51 66 L19 66Z" fill="url(#wrxGlass)" stroke="#79bbef" stroke-width="1.3"/>
+        <path d="M19 50 L25 63" stroke="#bedfff" stroke-width="2" opacity=".36"/>
+        <path d="M19 69 L51 69 L52 91 L18 91Z" fill="#0d4276" stroke="#64a9e7" stroke-width="1.2"/>
+        <path d="M20 71 L50 71 L49 89 L21 89Z" fill="url(#wrxGlass)"/>
+        <path d="M18 68 L13 66 M52 68 L57 66" stroke="#b4d8fa" stroke-width="2"/>
+        <!-- hatch and aggressive rear spoiler -->
+        <path d="M17 96 Q35 101 53 96" stroke="#72b4f2" stroke-width="2" fill="none"/>
+        <path d="M11 108 L59 108 L58 115 Q35 118 12 115Z" fill="#083e84" stroke="#73c0ff" stroke-width="1.4"/>
+        <rect x="13" y="103" width="10" height="4" rx="1" fill="#db333b"/>
+        <rect x="47" y="103" width="10" height="4" rx="1" fill="#db333b"/>
+      </svg>
+    </div>
+    <div id="wrx-controls" aria-label="Drive the WRX around the website">
+      <button type="button" class="wrx-up" data-wrx-direction="up" aria-label="Drive up">↑</button>
+      <button type="button" class="wrx-left" data-wrx-direction="left" aria-label="Drive left">←</button>
+      <span class="wrx-label">WRX</span>
+      <button type="button" class="wrx-right" data-wrx-direction="right" aria-label="Drive right">→</button>
+      <button type="button" class="wrx-down" data-wrx-direction="down" aria-label="Drive down">↓</button>
+    </div>
+    <script>
+      (() => {
+        const car = document.getElementById('wrx-car');
+        const keys = new Set();
+        let x = Math.min(window.innerWidth * .19, 220), y = Math.max(80, window.innerHeight * .55);
+        let angle = 0, dragging = false, lastTime = 0;
+        const max = (n, low, high) => Math.max(low, Math.min(high, n));
+        function keepInView() { x = max(x, 0, Math.max(0, innerWidth-car.offsetWidth)); y = max(y, 0, Math.max(0, innerHeight-car.offsetHeight)); }
+        function draw() { car.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${angle}deg)`; }
+        function tick(time) {
+          const delta = Math.min((time - (lastTime || time)) / 1000, .04); lastTime = time;
+          const speed = 220 * delta;
+          let dx = 0, dy = 0;
+          if (keys.has('up')) dy -= 1;
+          if (keys.has('down')) dy += 1;
+          if (keys.has('left')) dx -= 1;
+          if (keys.has('right')) dx += 1;
+          if (dx || dy) {
+            const size = Math.hypot(dx, dy); dx /= size; dy /= size;
+            x += dx * speed; y += dy * speed;
+            angle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+            keepInView(); draw();
+          }
+          requestAnimationFrame(tick);
+        }
+        const direction = {ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',s:'down',a:'left',d:'right'};
+        function typing() { return document.activeElement?.matches('input,textarea,select,[contenteditable="true"]') || document.activeElement?.closest('iframe'); }
+        window.addEventListener('keydown', event => { const dir = direction[event.key] || direction[event.key.toLowerCase()]; if (dir && !typing()) { keys.add(dir); event.preventDefault(); } });
+        window.addEventListener('keyup', event => { const dir = direction[event.key] || direction[event.key.toLowerCase()]; if (dir) keys.delete(dir); });
+        window.addEventListener('blur', () => keys.clear());
+        document.querySelectorAll('[data-wrx-direction]').forEach(button => {
+          const dir = button.dataset.wrxDirection;
+          button.addEventListener('pointerdown', e => { e.preventDefault(); button.setPointerCapture(e.pointerId); keys.add(dir); });
+          const stop = () => keys.delete(dir);
+          button.addEventListener('pointerup', stop); button.addEventListener('pointercancel', stop); button.addEventListener('lostpointercapture', stop);
+        });
+        let offsetX = 0, offsetY = 0;
+        car.addEventListener('pointerdown', e => { dragging = true; offsetX = e.clientX-x; offsetY = e.clientY-y; car.setPointerCapture(e.pointerId); e.preventDefault(); });
+        car.addEventListener('pointermove', e => { if (!dragging) return; x = e.clientX-offsetX; y = e.clientY-offsetY; keepInView(); draw(); });
+        const endDrag = () => dragging = false;
+        car.addEventListener('pointerup', endDrag); car.addEventListener('pointercancel', endDrag); car.addEventListener('lostpointercapture', endDrag);
+        window.addEventListener('resize', () => { keepInView(); draw(); });
+        keepInView(); draw(); requestAnimationFrame(tick);
+      })();
     </script>
 </body>
 </html>
