@@ -646,11 +646,11 @@
         }
 
         /* Optional interactive WRX hatchback. Existing site styling is unchanged. */
-        #wrx-car { position: fixed; left: 0; top: 0; width: 24px; height: 39px; z-index: 132; touch-action: none; cursor: grab; pointer-events: auto; user-select: none; filter: drop-shadow(0 8px 9px rgba(0,0,0,.55)); will-change: transform; }
+        #wrx-car { position: absolute; left: 0; top: 0; width: 24px; height: 39px; z-index: 132; touch-action: none; cursor: grab; pointer-events: auto; user-select: none; filter: drop-shadow(0 8px 9px rgba(0,0,0,.55)); will-change: transform; }
         #wrx-car:active { cursor: grabbing; }
         #wrx-skids { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 129; pointer-events: none; }
         #wrx-car img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; }
-        #wrx-controls { position: fixed; left: 0; top: 0; z-index: 131; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .45s ease, visibility .45s ease; display: grid; grid-template-columns: repeat(3, 39px); grid-template-rows: repeat(3, 39px); gap: 4px; align-items: center; justify-items: center; user-select: none; }
+        #wrx-controls { position: absolute; left: 0; top: 0; z-index: 131; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .45s ease, visibility .45s ease; display: grid; grid-template-columns: repeat(3, 39px); grid-template-rows: repeat(3, 39px); gap: 4px; align-items: center; justify-items: center; user-select: none; }
         #wrx-controls.wrx-visible { opacity: .72; visibility: visible; pointer-events: auto; }
         #wrx-controls button { background: rgba(21,24,31,.58); border: 1px solid rgba(255,255,255,.19); color: white; border-radius: 9px; height: 39px; width: 39px; display: grid; place-items: center; cursor: pointer; font-size: 21px; font-family: system-ui, sans-serif; line-height: 1; touch-action: none; -webkit-tap-highlight-color: transparent; backdrop-filter: blur(8px); box-shadow: 0 2px 8px rgba(0,0,0,.25); }
         #wrx-controls button:is(:hover,:active) { background: #2368b6; }
@@ -865,9 +865,9 @@
         const carH = innerWidth <= 600 ? 33 : 39;
         const rand = (min, max) => min + Math.random() * Math.max(0, max - min);
         const screenInset = 72;
-        const arrivalX = rand(Math.min(screenInset, innerWidth * .2), Math.max(screenInset, innerWidth - screenInset - carW));
-        const arrivalY = rand(Math.min(screenInset, innerHeight * .2), Math.max(screenInset, innerHeight - screenInset - carH));
-        const introFrom = [
+        let arrivalX = rand(Math.min(screenInset, innerWidth * .2), Math.max(screenInset, innerWidth - screenInset - carW));
+        let arrivalY = rand(Math.min(screenInset, innerHeight * .2), Math.max(screenInset, innerHeight - screenInset - carH));
+        let introFrom = [
           { x: -carH - 24, y: arrivalY, heading: Math.PI / 2 },
           { x: innerWidth + carH + 24, y: arrivalY, heading: -Math.PI / 2 },
           { x: arrivalX, y: -carH - 24, heading: Math.PI },
@@ -876,7 +876,7 @@
         let x = introFrom.x, y = introFrom.y;
         let angle = introFrom.heading, speed = 0, steer = 0, dragging = false;
         const controls = document.getElementById('wrx-controls');
-        let introStart = null, introActive = true;
+        let introStart = null, introActive = true, introPositioned = false;
         const introDelay = 5000;
         let controlsUntil = 0;
         const introDuration = 2000;
@@ -890,9 +890,9 @@
           const cx = x + car.offsetWidth / 2;
           const preferredX = cx - cw / 2;
           const preferredY = y + car.offsetHeight / 2 - ch / 2;
-          const left = clamp(preferredX, 5, Math.max(5, innerWidth - cw - 5));
+          const left = clamp(preferredX, 5, Math.max(5, document.documentElement.scrollWidth - cw - 5));
           const top = preferredY;
-          controls.style.transform = `translate3d(${left}px, ${clamp(top, 5, Math.max(5, innerHeight - ch - 5))}px, 0)`;
+          controls.style.transform = `translate3d(${left}px, ${clamp(top, 5, Math.max(5, document.documentElement.scrollHeight - ch - 5))}px, 0)`;
         }
         function cancelIntro() { introActive = false; introStart = null; }
         let lastTime = 0, lastTires = null;
@@ -913,8 +913,8 @@
           const halfWidth = car.offsetWidth / 2, halfHeight = car.offsetHeight / 2;
           const radius = Math.hypot(halfWidth, halfHeight);
           if (introActive) return;
-          x = clamp(x, -halfWidth + radius, Math.max(-halfWidth + radius, innerWidth - halfWidth - radius));
-          y = clamp(y, -halfHeight + radius, Math.max(-halfHeight + radius, innerHeight - halfHeight - radius));
+          x = clamp(x, -halfWidth + radius, Math.max(-halfWidth + radius, document.documentElement.scrollWidth - halfWidth - radius));
+          y = clamp(y, -halfHeight + radius, Math.max(-halfHeight + radius, document.documentElement.scrollHeight - halfHeight - radius));
         }
         function draw() {
           car.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${angle * 180 / Math.PI}deg)`;
@@ -945,8 +945,8 @@
             ctx.strokeStyle = `rgba(15, 17, 20, ${segment.alpha * opacity})`;
             ctx.lineWidth = segment.width;
             ctx.beginPath();
-            ctx.moveTo(segment.x1, segment.y1);
-            ctx.lineTo(segment.x2, segment.y2);
+            ctx.moveTo(segment.x1 - scrollX, segment.y1 - scrollY);
+            ctx.lineTo(segment.x2 - scrollX, segment.y2 - scrollY);
             ctx.stroke();
           }
           ctx.restore();
@@ -957,6 +957,15 @@
 
           if (introActive) {
             if (introStart === null) introStart = time + introDelay;
+            // On arrival, convert the entry lane to absolute page coordinates.
+            // This keeps the WRX visible even if the visitor scrolled during the 5s delay.
+            if (!introPositioned && time >= introStart) {
+              const pageTop = window.scrollY, pageLeft = window.scrollX;
+              arrivalX += pageLeft; arrivalY += pageTop;
+              introFrom = { ...introFrom, x: introFrom.x + pageLeft, y: introFrom.y + pageTop };
+              x = introFrom.x; y = introFrom.y;
+              introPositioned = true;
+            }
             const t = Math.max(0, Math.min(1, (time - introStart) / introDuration));
             // Roll in from the chosen edge and coast to a stop without snapping.
             const eased = 1 - Math.pow(1 - t, 3);
@@ -1079,8 +1088,9 @@
               Math.hypot(e.clientX - pendingTap.x, e.clientY - pendingTap.y) > 12) pendingTap = null;
         }, { passive: true });
         document.addEventListener('pointercancel', () => { pendingTap = null; }, { passive: true });
-        // Scrolling is navigation, not driving. Keep the car fixed at its screen
-        // coordinates and stop any pending tap-to-drive movement immediately.
+        // Scrolling is navigation, not driving. Because the car has absolute
+        // page coordinates, it naturally scrolls away with the content.
+        // Cancel active auto-driving without changing its parked page position.
         let touchScrollY = window.scrollY, touchScrollX = window.scrollX;
         window.addEventListener('scroll', () => {
           if (!isTouch) return;
@@ -1101,19 +1111,19 @@
           if (introActive || excludedTap(e.target) || performance.now() - t.at > 450 ||
               Math.hypot(e.clientX - t.x, e.clientY - t.y) > 12 ||
               Math.abs(scrollX - t.scrollX) > 3 || Math.abs(scrollY - t.scrollY) > 3) return;
-          waypoint = { x: e.clientX, y: e.clientY };
+          waypoint = { x: e.clientX + window.scrollX, y: e.clientY + window.scrollY };
         }, { passive: true });
         let offsetX = 0, offsetY = 0;
         car.addEventListener('pointerdown', e => {
           if (introActive) cancelIntro();
           revealControls();
           waypoint = null; dragging = true; speed = 0; steer = 0; lastTires = null;
-          offsetX = e.clientX - x; offsetY = e.clientY - y;
+          offsetX = e.clientX + window.scrollX - x; offsetY = e.clientY + window.scrollY - y;
           car.setPointerCapture(e.pointerId); e.preventDefault();
         });
         car.addEventListener('pointermove', e => {
           if (!dragging) return;
-          x = e.clientX - offsetX; y = e.clientY - offsetY;
+          x = e.clientX + window.scrollX - offsetX; y = e.clientY + window.scrollY - offsetY;
           keepInView(); draw();
         });
         const stopDragging = () => { dragging = false; lastTires = null; };
