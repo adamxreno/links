@@ -1009,7 +1009,7 @@
           // Keep the arrow pad centered around the car even while hidden; never jump at reveal.
           placeControls();
           if (controls.classList.contains('wrx-visible')) {
-            if (time > controlsUntil && keys.size === 0 && !dragging) {
+            if (time > controlsUntil) {
               controls.classList.remove('wrx-visible');
             }
           }
@@ -1025,7 +1025,7 @@
         }
         window.addEventListener('keydown', e => {
           const dir = directions[e.key] || directions[e.key.toLowerCase()];
-          if (dir && !typing()) { if (introActive) cancelIntro(); keys.add(dir); revealControls(); e.preventDefault(); }
+          if (dir && !typing()) { if (introActive) cancelIntro(); keys.add(dir); e.preventDefault(); }
         });
         window.addEventListener('keyup', e => {
           const dir = directions[e.key] || directions[e.key.toLowerCase()];
@@ -1035,7 +1035,7 @@
         document.querySelectorAll('[data-wrx-direction]').forEach(button => {
           const dir = button.dataset.wrxDirection;
           button.addEventListener('pointerdown', e => {
-            e.preventDefault(); if (introActive) cancelIntro(); button.setPointerCapture(e.pointerId); keys.add(dir); revealControls();
+            e.preventDefault(); if (introActive) cancelIntro(); button.setPointerCapture(e.pointerId); keys.add(dir);
           });
           const stop = () => keys.delete(dir);
           button.addEventListener('pointerup', stop);
