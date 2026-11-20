@@ -900,12 +900,11 @@
         const invite = document.getElementById('wrx-race-invite');
         const dismissInvite = document.getElementById('wrx-race-dismiss');
         let activeDriveSeconds = 0;
-        let raceInviteShown = sessionStorage.getItem('wrx-race-invite-seen') === '1';
+        let raceInviteShown = false; // One invitation per page load; refresh allows testing again.
         function closeRaceInvite() { invite.classList.remove('wrx-race-open'); invite.setAttribute('aria-hidden','true'); }
         function openRaceInvite() {
           if (raceInviteShown) return;
           raceInviteShown = true;
-          sessionStorage.setItem('wrx-race-invite-seen','1');
           invite.classList.add('wrx-race-open'); invite.setAttribute('aria-hidden','false');
           keys.clear(); waypoint = null; speed = 0; steer = 0;
           dismissInvite.focus();
@@ -1049,7 +1048,7 @@
             if (isTouch && !waypoint && !gas && !brake && Math.abs(speed) < 8) speed = 0;
             const moving = Math.abs(speed) > 3;
             if (moving) {
-              if (!raceInviteShown && Math.abs(speed) > 25 && document.visibilityState === 'visible') {
+              if (!raceInviteShown && Math.abs(speed) > 3 && document.visibilityState === 'visible') {
                 activeDriveSeconds += dt;
                 if (activeDriveSeconds >= 20) openRaceInvite();
               }
