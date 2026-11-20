@@ -662,17 +662,6 @@
         /* Tap-to-drive on touch devices; leave desktop controls untouched. */
         @media (pointer: coarse) { #wrx-controls, #wrx-controls.wrx-visible { visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; } }
         @media (max-width: 600px) { #wrx-car { width: 20px; height: 33px; } #wrx-controls { grid-template-columns: repeat(3, 35px); grid-template-rows: repeat(3, 35px); gap: 3px; } #wrx-controls button { width: 35px; height: 35px; } }
-
-/* Quiet, simple race invitation */
-#wrx-race-invite {position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.40);backdrop-filter:blur(3px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility .2s}
-#wrx-race-invite.wrx-race-open {opacity:1;visibility:visible;pointer-events:auto}
-#wrx-race-invite .wrx-race-card {width:min(310px,100%);background:#17191b;border:1px solid #505359;border-radius:13px;padding:25px 22px 21px;text-align:center;box-shadow:0 16px 50px #0009;color:white;font-family:system-ui,-apple-system,sans-serif}
-#wrx-race-invite h2 {font-size:25px;line-height:1.2;margin:0 0 22px;color:#fff;font-weight:650;letter-spacing:-.035em}
-#wrx-race-invite .wrx-race-actions {display:flex;gap:9px;align-items:stretch}
-#wrx-race-invite .wrx-race-go,#wrx-race-invite .wrx-race-later {flex:1;text-decoration:none;border-radius:8px;padding:12px 8px;font:600 14px system-ui,-apple-system,sans-serif;cursor:pointer;display:grid;place-items:center}
-#wrx-race-invite .wrx-race-go {background:#eee;color:#17191b;border:1px solid #eee}
-#wrx-race-invite .wrx-race-later {background:transparent;color:#eee;border:1px solid #505359}
-#wrx-race-invite :is(.wrx-race-go,.wrx-race-later):focus-visible {outline:2px solid #89b9ff;outline-offset:3px}
     </style>
 </head>
 <body>
@@ -859,16 +848,6 @@
       <button type="button" class="wrx-right" data-wrx-direction="right" aria-label="Drive right">→</button>
       <button type="button" class="wrx-down" data-wrx-direction="down" aria-label="Drive down">↓</button>
     </div>
-
-    <div id="wrx-race-invite" role="dialog" aria-modal="true" aria-labelledby="wrx-invite-title" aria-hidden="true">
-      <div class="wrx-race-card">
-        <h2 id="wrx-invite-title">Want to race? 👀</h2>
-        <div class="wrx-race-actions">
-          <a class="wrx-race-go" href="/race/">Sure</a>
-          <button class="wrx-race-later" type="button" id="wrx-race-dismiss">No thanks</button>
-        </div>
-      </div>
-    </div>
     <script>
       (() => {
         const car = document.getElementById('wrx-car');
@@ -897,22 +876,6 @@
         let x = introFrom.x, y = introFrom.y;
         let angle = introFrom.heading, speed = 0, steer = 0, dragging = false;
         const controls = document.getElementById('wrx-controls');
-        const invite = document.getElementById('wrx-race-invite');
-        const dismissInvite = document.getElementById('wrx-race-dismiss');
-        let activeDriveSeconds = 0;
-        let raceInviteShown = false; // One invitation per page load; refresh allows testing again.
-        function closeRaceInvite() { invite.classList.remove('wrx-race-open'); invite.setAttribute('aria-hidden','true'); }
-        function openRaceInvite() {
-          if (raceInviteShown) return;
-          raceInviteShown = true;
-          invite.classList.add('wrx-race-open'); invite.setAttribute('aria-hidden','false');
-          keys.clear(); waypoint = null; speed = 0; steer = 0;
-          dismissInvite.focus();
-        }
-        dismissInvite.addEventListener('click',closeRaceInvite);
-        invite.addEventListener('click',e=>{if(e.target === invite) closeRaceInvite();});
-        document.addEventListener('keydown',e=>{if(e.key==='Escape' && invite.classList.contains('wrx-race-open')) closeRaceInvite();});
-
         let introStart = null, introActive = true, introPositioned = false;
         const introDelay = 5000;
         let controlsUntil = 0;
@@ -1015,7 +978,7 @@
               revealControls(3050);
             }
           }
-          if (!introActive && !dragging && !invite.classList.contains('wrx-race-open')) {
+          if (!introActive && !dragging) {
             let gas = keys.has('up'), brake = keys.has('down');
             let turnInput = Number(keys.has('right')) - Number(keys.has('left'));
             if (isTouch && waypoint) {
@@ -1048,10 +1011,6 @@
             if (isTouch && !waypoint && !gas && !brake && Math.abs(speed) < 8) speed = 0;
             const moving = Math.abs(speed) > 3;
             if (moving) {
-              if (!raceInviteShown && Math.abs(speed) > 3 && document.visibilityState === 'visible') {
-                activeDriveSeconds += dt;
-                if (activeDriveSeconds >= 20) openRaceInvite();
-              }
               // Continuous, speed-sensitive steering, including proper reverse steering.
               const turnRate = steeringRate * (.3 + .7 * Math.min(Math.abs(speed) / 185, 1));
               const oldAngle = angle;
@@ -1099,7 +1058,7 @@
         }
         window.addEventListener('keydown', e => {
           const dir = directions[e.key] || directions[e.key.toLowerCase()];
-          if (dir && !typing() && !invite.classList.contains('wrx-race-open')) { if (introActive) cancelIntro(); waypoint = null; keys.add(dir); e.preventDefault(); }
+          if (dir && !typing()) { if (introActive) cancelIntro(); waypoint = null; keys.add(dir); e.preventDefault(); }
         });
         window.addEventListener('keyup', e => {
           const dir = directions[e.key] || directions[e.key.toLowerCase()];
