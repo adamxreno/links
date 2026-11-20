@@ -663,15 +663,16 @@
         @media (pointer: coarse) { #wrx-controls, #wrx-controls.wrx-visible { visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; } }
         @media (max-width: 600px) { #wrx-car { width: 20px; height: 33px; } #wrx-controls { grid-template-columns: repeat(3, 35px); grid-template-rows: repeat(3, 35px); gap: 3px; } #wrx-controls button { width: 35px; height: 35px; } }
 
-/* Hidden WRX time-attack invitation */
-#wrx-race-invite {position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.57);backdrop-filter:blur(8px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s,visibility .25s}
+/* Quiet, simple race invitation */
+#wrx-race-invite {position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.40);backdrop-filter:blur(3px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,visibility .2s}
 #wrx-race-invite.wrx-race-open {opacity:1;visibility:visible;pointer-events:auto}
-#wrx-race-invite .wrx-race-card {max-width:390px;width:100%;background:#121820;border:1px solid #456180;border-radius:22px;padding:29px 25px;box-shadow:0 24px 70px #000a;text-align:center;color:#fff;font-family:system-ui,-apple-system,sans-serif}
-#wrx-race-invite .wrx-race-eyebrow {font-size:11px;letter-spacing:.23em;color:#89b9ff;font-weight:800}
-#wrx-race-invite h2 {font-size:31px;line-height:1.15;margin:12px 0;color:white}
-#wrx-race-invite p {font-size:14px;line-height:1.55;color:#b6c3d5;margin:0 0 21px}
-#wrx-race-invite .wrx-race-go {display:block;text-decoration:none;border-radius:12px;padding:13px;background:#246de0;color:#fff;font-weight:800;font-size:15px}
-#wrx-race-invite .wrx-race-later {margin-top:12px;background:transparent;color:#abb7ca;border:0;padding:8px 15px;cursor:pointer;font-size:14px}
+#wrx-race-invite .wrx-race-card {width:min(310px,100%);background:#17191b;border:1px solid #505359;border-radius:13px;padding:25px 22px 21px;text-align:center;box-shadow:0 16px 50px #0009;color:white;font-family:system-ui,-apple-system,sans-serif}
+#wrx-race-invite h2 {font-size:25px;line-height:1.2;margin:0 0 22px;color:#fff;font-weight:650;letter-spacing:-.035em}
+#wrx-race-invite .wrx-race-actions {display:flex;gap:9px;align-items:stretch}
+#wrx-race-invite .wrx-race-go,#wrx-race-invite .wrx-race-later {flex:1;text-decoration:none;border-radius:8px;padding:12px 8px;font:600 14px system-ui,-apple-system,sans-serif;cursor:pointer;display:grid;place-items:center}
+#wrx-race-invite .wrx-race-go {background:#eee;color:#17191b;border:1px solid #eee}
+#wrx-race-invite .wrx-race-later {background:transparent;color:#eee;border:1px solid #505359}
+#wrx-race-invite :is(.wrx-race-go,.wrx-race-later):focus-visible {outline:2px solid #89b9ff;outline-offset:3px}
     </style>
 </head>
 <body>
@@ -861,11 +862,11 @@
 
     <div id="wrx-race-invite" role="dialog" aria-modal="true" aria-labelledby="wrx-invite-title" aria-hidden="true">
       <div class="wrx-race-card">
-        <div class="wrx-race-eyebrow">🏁 SECRET UNLOCKED</div>
-        <h2 id="wrx-invite-title">Want to race? 🏎️</h2>
-        <p>You've been putting that little Subaru to work. There's a hidden track waiting for you.</p>
-        <a class="wrx-race-go" href="/race/">LET'S RACE</a>
-        <button class="wrx-race-later" type="button" id="wrx-race-dismiss">Maybe later</button>
+        <h2 id="wrx-invite-title">Want to race? 👀</h2>
+        <div class="wrx-race-actions">
+          <a class="wrx-race-go" href="/race/">Sure</a>
+          <button class="wrx-race-later" type="button" id="wrx-race-dismiss">No thanks</button>
+        </div>
       </div>
     </div>
     <script>
